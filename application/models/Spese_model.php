@@ -34,14 +34,36 @@ class Spese_model extends CI_Model {
         }
 
         public function create_spesa(){
+          $cifra = (empty($this->input->post('cifra'))) ? "0.00" : $this->input->post('cifra');
+          $data = (empty($this->input->post('data'))) ? date('Y-m-d') : $this->input->post('data');
+          $causale = (empty($this->input->post('causale'))) ? "Si è verificato un errore, campi vuoti o errati. <strong class='text-danger'>controllare questa spesa!</strong>" : $this->input->post('causale');
+          $titolo = (empty($this->input->post('titolo'))) ? "<span class='badge badge-danger'>Errore</span>" : $this->input->post('titolo');
           $data = array(
-            'cifra' => $this->input->post('cifra'),
-            'data' => $this->input->post('data'),
-            'causale' => $this->input->post('causale'),
-            'titolo' => $this->input->post('titolo'),
+            'cifra' => $cifra,
+            'data' => $data,
+            'causale' => $causale,
+            'titolo' => $titolo,
             'pagamento' => $this->input->post('pagamento'),
           );
 
           return $this->db->insert('spese', $data);
+        }
+
+        public function edit_spesa($id){
+          $cifra = (empty($this->input->post('cifra'))) ? "0.00" : $this->input->post('cifra');
+          $data = (empty($this->input->post('data'))) ? date('Y-m-d') : $this->input->post('data');
+          $causale = (empty($this->input->post('causale'))) ? "Si è verificato un errore, campi vuoti o errati. <strong class='text-danger'>controllare questa spesa!</strong>" : $this->input->post('causale');
+          $titolo = (empty($this->input->post('titolo'))) ? "<span class='badge badge-danger'>Errore</span>" : $this->input->post('titolo');
+
+          $data = array(
+            'idSpesa' => $id,
+            'cifra' => $cifra,
+            'data' => $data,
+            'causale' => $causale,
+            'titolo' => $titolo,
+            'pagamento' => $this->input->post('pagamento'),
+          );
+
+          return $this->db->replace('spese', $data);
         }
 }

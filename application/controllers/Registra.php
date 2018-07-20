@@ -1,5 +1,5 @@
 <?php
-class Nuova extends CI_Controller {
+class Registra extends CI_Controller {
 
   public function __construct()
   {
@@ -14,7 +14,7 @@ class Nuova extends CI_Controller {
   public function index()
   {
     $this->load->view('templates/header');
-    $this->load->view('spese/create');
+    $this->load->view('registra/create');
     $this->load->view('templates/footer');
   }
 
@@ -30,7 +30,7 @@ class Nuova extends CI_Controller {
         header('Location: '.base_url().'lista');
       } else {
         $this->load->view('templates/header');
-        $this->load->view('spese/create');
+        $this->load->view('registra/create');
         $this->load->view('templates/footer');
       }
     //}

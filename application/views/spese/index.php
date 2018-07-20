@@ -205,7 +205,11 @@
             <small><?php echo $spesa['causale'];?></small>
           </div>
           <div class="mt-2">
-            <a class="btn btn-outline-danger btn-sm"  data-toggle="collapse" href="#collapseAction<?php echo $spesa['idSpesa']?>" role="button" aria-expanded="false" aria-controls="collapseExample">Elimina</a>
+            <div class="d-flex flex-row justify-content-center">
+              <a class="btn btn-outline-danger btn-sm mt-2 mr-2"  data-toggle="collapse" href="#collapseAction<?php echo $spesa['idSpesa']?>" role="button" aria-expanded="false" aria-controls="collapseExample">Elimina</a>
+              <button type="button" class="btn btn-outline-warning btn-sm mt-2" data-toggle="modal" data-target="#modalModifica<?php echo $spesa['idSpesa'];?>">Modifica</button>
+            </div>
+
             <div class="collapse" id="collapseAction<?php echo $spesa['idSpesa'];?>">
               <div class="form-group form-check mt-2 p-0">
                 <label class="form-check-label text-danger" for="exampleCheck1">Sei sicuro? I dati saranno cancellati <strong>permanentemente</strong></label>
@@ -214,6 +218,72 @@
                 </form>
               </div>
             </div>
+
+            <?php echo form_open('spese/edit/'.$spesa['idSpesa']);?>
+            <div class="modal fade" id="modalModifica<?php echo $spesa['idSpesa'];?>" tabindex="-1" role="dialog" aria-labelledby="modalModificatitle" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Modifica questa spesa</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <div class="row">
+                      <div class="col-md-6 text-left">
+                        <div class="container mb-2">
+                          <h5>Tipo di pagamento</h5>
+                          <div class="form-check">
+                            <input class="form-check-input" type="radio" name="pagamento" id="pagamento0" value="0" checked>
+                            <label class="form-check-label" for="pagamento0">
+                              <img src="<?php echo base_url();?>assets/img/pagamenti/0.svg" alt="Bancomat" height="30" width="30"> Bancomat
+                            </label>
+                          </div>
+                          <div class="form-check">
+                            <input class="form-check-input" type="radio" name="pagamento" id="pagamento1" value="1">
+                            <label class="form-check-label" for="pagamento1">
+                              <img src="<?php echo base_url();?>assets/img/pagamenti/1.svg" alt="Contanti" height="30" width="30"> Contanti
+                            </label>
+                          </div>
+                        </div>
+                        <div class="container mb-2">
+                          <h5>Cifra spesa</h5>
+                          <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text text-success">€</span>
+                            </div>
+                            <input type="number" step="any" class="form-control" aria-label="Amount (to the nearest dollar)" value="<?php echo $spesa['cifra']; ?>" name="cifra">
+                          </div>
+                        </div>
+                        <div class="container mb-4">
+                          <h5>Data</h5>
+                          <div class="input-group mb-3">
+                            <input type="date" class="form-control" value="<?php echo $spesa['data']; ?>" name="data">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-6 text-left">
+                        <div class="container mb-2">
+                          <h5>Titolo</h5>
+                          <input type="text" class="form-control" name="titolo" value="<?php echo $spesa['titolo']; ?>">
+                        </div>
+                        <div class="container mb-4">
+                          <h5>Causale</h5>
+                          <textarea class="form-control" style="min-height: 149px;" name="causale"><?php echo $spesa['causale']; ?></textarea>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Annulla</button>
+                    <button type="submit" class="btn btn-outline-success">Modifica</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+
           </div>
         </div>
       </div>

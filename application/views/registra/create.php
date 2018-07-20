@@ -1,4 +1,4 @@
-<?php echo form_open('nuova/create');?>
+<?php echo form_open('registra/create');?>
 <div class="container jumbotron bg-light">
   <div class="d-flex flex-row">
     <h2 class="text-warning d-flex align-self-center">Registra una nuova spesa</h2>
@@ -51,7 +51,6 @@
       <div class="container">
         <button type="submit" name="button" class="btn btn-outline-success mt-2 mr-2">Salva, registra nuova spesa</button>
         <button type="submit" name="button" class="btn btn-outline-success mt-2 mr-4" value="exit">Salva ed esci</button>
-        <button type="button" name="button" class="btn btn-outline-danger mt-2">Azzera registrazione</button>
       </div>
     </div>
   </div>

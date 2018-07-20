@@ -91,6 +91,12 @@ class Spese extends CI_Controller {
     $this->load->view('templates/footer');
   }
 
+  public function edit($id){
+    if ($this->Spese_model->edit_spesa($id)) {
+      redirect('lista');
+    }
+  }
+
 
   /*public function sort($tipo, $ordine){
     if ($tipo == "titolo") {
