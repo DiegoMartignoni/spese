@@ -1,0 +1,1 @@
+ipconfig > C:\xampp\htdocs\spese\assets\config\network_info.txt

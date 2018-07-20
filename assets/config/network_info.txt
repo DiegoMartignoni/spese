@@ -1,0 +1,26 @@
+
+Configurazione IP di Windows
+
+
+Scheda Ethernet Ethernet:
+
+   Stato supporto. . . . . . . . . . . . : Supporto disconnesso
+   Suffisso DNS specifico per connessione: 
+
+Scheda LAN wireless Connessione alla rete locale (LAN)* 2:
+
+   Stato supporto. . . . . . . . . . . . : Supporto disconnesso
+   Suffisso DNS specifico per connessione: 
+
+Scheda LAN wireless Connessione alla rete locale (LAN)* 3:
+
+   Stato supporto. . . . . . . . . . . . : Supporto disconnesso
+   Suffisso DNS specifico per connessione: 
+
+Scheda LAN wireless Wi-Fi:
+
+   Suffisso DNS specifico per connessione: 
+   Indirizzo IPv6 locale rispetto al collegamento . : fe80::cd0e:f9c8:388f:d765%5
+   Indirizzo IPv4. . . . . . . . . . . . : 192.168.1.104
+   Subnet mask . . . . . . . . . . . . . : 255.255.255.0
+   Gateway predefinito . . . . . . . . . : 192.168.1.2
