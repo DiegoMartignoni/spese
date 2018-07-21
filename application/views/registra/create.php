@@ -1,7 +1,7 @@
 <?php echo form_open('registra/create');?>
 <div class="container jumbotron bg-light">
   <div class="d-flex flex-row">
-    <h2 class="text-warning d-flex align-self-center">Registra una nuova spesa</h2>
+    <h2 class="text-warning d-flex align-self-center">Registra una nuova transazione</h2>
     <div class="d-flex align-items-stretch align-self-center ml-3">
       <img src="<?php echo base_url(); ?>assets/img/pagamenti/new.svg" alt="new" height="45" width="45">
     </div>
@@ -10,21 +10,17 @@
     <div class="col-md-6">
       <div class="container mb-2">
         <h5>Tipo di pagamento</h5>
-        <div class="form-check">
-          <input class="form-check-input" type="radio" name="pagamento" id="pagamento0" value="0" checked>
-          <label class="form-check-label" for="pagamento0">
-            <img src="<?php echo base_url();?>assets/img/pagamenti/0.svg" alt="Bancomat" height="30" width="30"> Bancomat
-          </label>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input" type="radio" name="pagamento" id="pagamento1" value="1">
-          <label class="form-check-label" for="pagamento1">
-            <img src="<?php echo base_url();?>assets/img/pagamenti/1.svg" alt="Contanti" height="30" width="30"> Contanti
-          </label>
-        </div>
+        <?php foreach ($lista_pagamenti as $item_pagamento): ?>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="idPagamento" id="idPagamento<?php echo $item_pagamento['idPagamento']; ?>" value="<?php echo $item_pagamento['idPagamento']; ?>" checked>
+            <label class="form-check-label" for="idPagamento<?php echo $item_pagamento['idPagamento']; ?>">
+              <img src="<?php echo base_url().$item_pagamento['imgPath'];?>" alt="<?php echo $item_pagamento['tipo'] ?>" height="30" width="30"> <?php echo $item_pagamento['tipo'] ?>
+            </label>
+          </div>
+        <?php endforeach; ?>
       </div>
       <div class="container mb-2">
-        <h5>Cifra spesa</h5>
+        <h5>Cifra</h5>
         <div class="input-group mb-3">
           <div class="input-group-prepend">
             <span class="input-group-text text-success">€</span>
@@ -49,7 +45,7 @@
         <textarea class="form-control" style="min-height: 149px;" name="causale"></textarea>
       </div>
       <div class="container">
-        <button type="submit" name="button" class="btn btn-outline-success mt-2 mr-2">Salva, registra nuova spesa</button>
+        <button type="submit" name="button" class="btn btn-outline-success mt-2 mr-2">Salva e continua</button>
         <button type="submit" name="button" class="btn btn-outline-success mt-2 mr-4" value="exit">Salva ed esci</button>
       </div>
     </div>

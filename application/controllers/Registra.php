@@ -13,8 +13,9 @@ class Registra extends CI_Controller {
 
   public function index()
   {
+    $data['lista_pagamenti'] = $this->Transazioni_model->get_pagamenti();
     $this->load->view('templates/header');
-    $this->load->view('registra/create');
+    $this->load->view('registra/create', $data);
     $this->load->view('templates/footer');
   }
 
@@ -25,12 +26,13 @@ class Registra extends CI_Controller {
     if ($this->form_validation->run() === false) {
       header('Location: '.base_url().'lista');
     } else {*/
-      $this->Spese_model->create_spesa();
+      $this->Transazioni_model->create_transazione();
       if ($this->input->post('button') == "exit") {
         header('Location: '.base_url().'lista');
       } else {
+        $data['lista_pagamenti'] = $this->Transazioni_model->get_pagamenti();
         $this->load->view('templates/header');
-        $this->load->view('registra/create');
+        $this->load->view('registra/create', $data);
         $this->load->view('templates/footer');
       }
     //}
@@ -38,7 +40,7 @@ class Registra extends CI_Controller {
 
   /*public function sort($tipo, $ordine){
     if ($tipo == "titolo") {
-      $data['spese'] = $this->Spese_model->get_spese($tipo, $ordine);
+      $data['spese'] = $this->Transazioni_model->get_spese($tipo, $ordine);
       $data['ordinato_per'] = "Titolo";
     }
 

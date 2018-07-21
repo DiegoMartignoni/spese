@@ -8,18 +8,18 @@
       <h5>Titolo</h5>
       <div class="container">
         <div class="row d-flex justify-content-center">
-          <?php echo form_open('spese/index/titolo/asc');?>
+          <?php echo form_open('transazioni/index/titolo/asc');?>
           <div class="col-6 mt-2">
             <button type="submit" class="btn btn-outline-warning" name="button">Crescente</button>
           </div>
           </form>
-          <?php echo form_open('spese/index/titolo/desc');?>
+          <?php echo form_open('transazioni/index/titolo/desc');?>
           <div class="col-6 mt-2">
             <button type="submit" class="btn btn-outline-warning" name="button">Decrescente</button>
           </div>
           </form>
         </div>
-        <?php echo form_open('spese/search');?>
+        <?php echo form_open('transazioni/search');?>
         <div class="row mt-4">
           <div class="input-group mb-3">
             <input type="text" class="form-control" placeholder="Cerca" aria-label="Recipient's username" aria-describedby="basic-addon2" name="cerca">
@@ -32,7 +32,7 @@
       </div>
     </div>
     <div class="col-md-4 mb-2 text-muted">
-      <?php echo form_open('spese/sort_by_date');?>
+      <?php echo form_open('transazioni/sort_by_date');?>
       <h5>Data</h5>
       <div class="container">
         <div class="row text-left">
@@ -55,30 +55,43 @@
       <div class="container mb-2">
         <div class="row">
           <div class="col-8 d-flex align-self-center">
-            <h5>Mostra spese</h5>
+            <h5>Mostra pagamenti</h5>
           </div>
           <div class="col-4 d-flex align-self-center">
-          <?php echo form_open('spese/filter_by');?>
+          <?php echo form_open('transazioni/filter_by');?>
             <button type="submit" class="btn btn-outline-secondary btn-sm" name="button">Filtra</button>
           </div>
         </div>
       </div>
-      <div class="btn-group btn-group-toggle d-flex flex-column justify-content-center" data-toggle="buttons">
-        <label class="btn btn-outline-light rounded active mb-2">
-          <input type="radio" name="opzioneTipo" id="option1" autocomplete="off" checked value="disabled"> Tutto
+      <div class="form-check d-flex flex-column justify-content-center">
+        <label class="text-muted rounded active mb-2">
+          <input class="form-check-input" type="radio" name="opzioneTipo" id="idPagamento0" value="disabled" checked>
+          <label class="form-check-label" for="idPagamento0">
+            Mostra Tutto
+          </label>
         </label>
-        <label class="btn btn-outline-success rounded mb-2">
-          <input type="radio" name="opzioneTipo" id="option2" autocomplete="off" value="1">  Contanti
-        </label>
-        <label class="btn btn-outline-warning rounded mb-2">
-          <input type="radio" name="opzioneTipo" id="option3" autocomplete="off" value="0">  Bancomat
-        </label>
+        <div class="container">
+          <div class="row">
+            <?php if (empty($lista_pagamenti)) { ?>
+              <p class="text-muted">Nessun tipo di pagamento disponibile</p>
+            <?php } else {?>
+            <?php foreach ($lista_pagamenti as $item_pagamento): ?>
+              <div class="col-md-6 text-muted">
+                <input class="form-check-input" type="radio" name="opzioneTipo" id="idPagamento<?php echo $item_pagamento['idPagamento']; ?>" value="<?php echo $item_pagamento['idPagamento']; ?>" >
+                <label class="form-check-label" for="idPagamento<?php echo $item_pagamento['idPagamento']; ?>">
+                  <img src="<?php echo base_url().$item_pagamento['imgPath'];?>" alt="<?php echo $item_pagamento['tipo'] ?>" height="30" width="30"> <?php echo $item_pagamento['tipo'] ?>
+                </label>
+              </div>
+            <?php endforeach; ?>
+          <?php } ?>
+          </div>
+        </div>
       </div>
     </form>
     </div>
   </div>
   <div class="row">
-    <?php if (empty($spese)) { ?>
+    <?php if (empty($transazioni)) { ?>
       <div class="col-12 jumbotron bg-white d-flex justify-content-center">
         <h4 class="text-muted mb-0 d-flex align-self-center">Non è stata trovata alcuna spesa</h4>
         <div class="ml-3 d-flex align-items-stretch align-self-center">
@@ -86,14 +99,14 @@
         </div>
       </div>
     <?php } else { ?>
-    <?php foreach ($spese as $spesa):?>
-      <?php if ($spesa['pagamento'] == $_SESSION['pagamento'] || $_SESSION['pagamento'] == "disabled") { ?>
+    <?php foreach ($transazioni as $transazione):?>
+      <?php if ($transazione['idPagamento'] == $_SESSION['idPagamento'] || $_SESSION['idPagamento'] == "disabled") { ?>
       <div class="col-md-4">
         <div class="jumbotron p-3 mt-2 text-center">
           <div class="container">
-            <h3><?php echo $spesa['titolo'];?></h3>
-            <a class="badge badge-dark" data-toggle="collapse" href="#collapse<?php echo $spesa['idSpesa'];?>" role="button" aria-expanded="false" aria-controls="collapseExample"><?php
-            $giorno= date("l", strtotime($spesa['data']));
+            <h3><?php echo $transazione['titolo'];?></h3>
+            <a class="badge badge-dark" data-toggle="collapse" href="#collapse<?php echo $transazione['idTransazione'];?>" role="button" aria-expanded="false" aria-controls="collapseExample"><?php
+            $giorno= date("l", strtotime($transazione['data']));
             switch ($giorno) {
               case 'Monday':
               $giorno = "Lunedì";
@@ -122,7 +135,7 @@
               break;
             }
 
-            $mese= date("F", strtotime($spesa['data']));
+            $mese= date("F", strtotime($transazione['data']));
             switch ($mese) {
               case 'January':
               $mese = "Gennaio";
@@ -170,11 +183,11 @@
             }
 
 
-            echo $giorno." ".date("d", strtotime($spesa['data']))." ".$mese." ".date("Y", strtotime($spesa['data']));
+            echo $giorno." ".date("d", strtotime($transazione['data']))." ".$mese." ".date("Y", strtotime($transazione['data']));
             ?></a>
-            <p class="collapse text-success font-weight-bold mb-0" id="collapse<?php echo $spesa['idSpesa'];?>">
+            <p class="collapse text-success font-weight-bold mb-0" id="collapse<?php echo $transazione['idTransazione'];?>">
               <?php
-              $datauno = date_create($spesa['data']);
+              $datauno = date_create($transazione['data']);
               $dataoggi = date_create(date('Y-m-d', time()));
               $quantigiorni = date_diff($datauno, $dataoggi);
               $gformat = ($quantigiorni->format('%a') > 1) ? "giorni" : "giorno" ;
@@ -186,44 +199,31 @@
               ?>
             </p>
             <div class="d-flex justify-content-center mt-2">
-              <img src="<?php echo base_url();?>assets/img/pagamenti/<?php echo $spesa['pagamento']?>.svg" alt="carta di credito" width="35px" height="35px" data-toggle="tooltip" data-placement="left" title="
-              <?php
-              switch ($spesa['pagamento']) {
-                case 0:
-                echo "Bancomat";
-                break;
-                case 1:
-                echo "Contanti";
-                break;
-                default:
-                echo "???";
-                break;
-              }
-              ?>">
-              <div class="ml-3 d-flex align-items-center"><p class="m-0 p-0 font-weight-bold">€ <?php echo $spesa['cifra'];?></p></div>
+              <img src="<?php echo base_url().$transazione['imgPath'];?>" alt="carta di credito" width="35px" height="35px" data-toggle="tooltip" data-placement="left" title="<?php echo $transazione['tipo']; ?>">
+              <div class="ml-3 d-flex align-items-center"><p class="m-0 p-0 font-weight-bold">€ <?php echo $transazione['cifra'];?></p></div>
             </div>
-            <small><?php echo $spesa['causale'];?></small>
+            <small><?php echo $transazione['causale'];?></small>
           </div>
           <div class="mt-2">
             <div class="d-flex flex-row justify-content-center">
-              <a class="btn btn-outline-danger btn-sm mt-2 mr-2"  data-toggle="collapse" href="#collapseAction<?php echo $spesa['idSpesa']?>" role="button" aria-expanded="false" aria-controls="collapseExample">Elimina</a>
-              <button type="button" class="btn btn-outline-warning btn-sm mt-2" data-toggle="modal" data-target="#modalModifica<?php echo $spesa['idSpesa'];?>">Modifica</button>
+              <a class="btn btn-outline-danger btn-sm mt-2 mr-2"  data-toggle="collapse" href="#collapseAction<?php echo $transazione['idTransazione']?>" role="button" aria-expanded="false" aria-controls="collapseExample">Elimina</a>
+              <button type="button" class="btn btn-outline-warning btn-sm mt-2" data-toggle="modal" data-target="#modalModifica<?php echo $transazione['idTransazione'];?>">Modifica</button>
             </div>
 
-            <div class="collapse" id="collapseAction<?php echo $spesa['idSpesa'];?>">
+            <div class="collapse" id="collapseAction<?php echo $transazione['idTransazione'];?>">
               <div class="form-group form-check mt-2 p-0">
                 <label class="form-check-label text-danger" for="exampleCheck1">Sei sicuro? I dati saranno cancellati <strong>permanentemente</strong></label>
-                <?php echo form_open('spese/delete/'.$spesa['idSpesa']);?>
+                <?php echo form_open('transazioni/delete/'.$transazione['idTransazione']);?>
                 <button type="submit" class="btn btn-danger btn-sm mt-2" name="button">Conferma eliminazione</button>
                 </form>
               </div>
             </div>
 
-            <?php echo form_open('spese/edit/'.$spesa['idSpesa']);?>
-            <div class="modal fade" id="modalModifica<?php echo $spesa['idSpesa'];?>" tabindex="-1" role="dialog" aria-labelledby="modalModificatitle" aria-hidden="true">
+            <?php echo form_open('transazioni/edit/'.$transazione['idTransazione']);?>
+            <div class="modal fade" id="modalModifica<?php echo $transazione['idTransazione'];?>" tabindex="-1" role="dialog" aria-labelledby="modalModificatitle" aria-hidden="true">
               <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
-                  <div class="modal-header">
+                  <div class="modal-header bg-warning">
                     <h5 class="modal-title" id="exampleModalLongTitle">Modifica questa spesa</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                       <span aria-hidden="true">&times;</span>
@@ -233,19 +233,15 @@
                     <div class="row">
                       <div class="col-md-6 text-left">
                         <div class="container mb-2">
-                          <h5>Tipo di pagamento</h5>
+                          <h5>Tipo di idPagamento</h5>
+                          <?php foreach ($lista_pagamenti as $item_pagamento): ?>
                           <div class="form-check">
-                            <input class="form-check-input" type="radio" name="pagamento" id="pagamento0" value="0" checked>
-                            <label class="form-check-label" for="pagamento0">
-                              <img src="<?php echo base_url();?>assets/img/pagamenti/0.svg" alt="Bancomat" height="30" width="30"> Bancomat
+                            <input class="form-check-input" type="radio" name="idPagamento" id="idPagamento<?php echo $item_pagamento['idPagamento']; ?>" value="<?php echo $item_pagamento['idPagamento']; ?>" <?php echo $checked = ($transazione['idPagamento'] == $item_pagamento['idPagamento']) ? "checked" : "" ; ?>>
+                            <label class="form-check-label" for="idPagamento<?php echo $item_pagamento['idPagamento']; ?>">
+                              <img src="<?php echo base_url().$item_pagamento['imgPath'];?>" alt="<?php echo $item_pagamento['tipo'] ?>" height="30" width="30"> <?php echo $item_pagamento['tipo'] ?>
                             </label>
                           </div>
-                          <div class="form-check">
-                            <input class="form-check-input" type="radio" name="pagamento" id="pagamento1" value="1">
-                            <label class="form-check-label" for="pagamento1">
-                              <img src="<?php echo base_url();?>assets/img/pagamenti/1.svg" alt="Contanti" height="30" width="30"> Contanti
-                            </label>
-                          </div>
+                        <?php endforeach; ?>
                         </div>
                         <div class="container mb-2">
                           <h5>Cifra spesa</h5>
@@ -253,24 +249,24 @@
                             <div class="input-group-prepend">
                               <span class="input-group-text text-success">€</span>
                             </div>
-                            <input type="number" step="any" class="form-control" aria-label="Amount (to the nearest dollar)" value="<?php echo $spesa['cifra']; ?>" name="cifra">
+                            <input type="number" step="any" class="form-control" aria-label="Amount (to the nearest dollar)" value="<?php echo $transazione['cifra']; ?>" name="cifra">
                           </div>
                         </div>
                         <div class="container mb-4">
                           <h5>Data</h5>
                           <div class="input-group mb-3">
-                            <input type="date" class="form-control" value="<?php echo $spesa['data']; ?>" name="data">
+                            <input type="date" class="form-control" value="<?php echo $transazione['data']; ?>" name="data">
                           </div>
                         </div>
                       </div>
                       <div class="col-md-6 text-left">
                         <div class="container mb-2">
                           <h5>Titolo</h5>
-                          <input type="text" class="form-control" name="titolo" value="<?php echo $spesa['titolo']; ?>">
+                          <input type="text" class="form-control" name="titolo" value="<?php echo $transazione['titolo']; ?>">
                         </div>
                         <div class="container mb-4">
                           <h5>Causale</h5>
-                          <textarea class="form-control" style="min-height: 149px;" name="causale"><?php echo $spesa['causale']; ?></textarea>
+                          <textarea class="form-control" style="min-height: 149px;" name="causale"><?php echo $transazione['causale']; ?></textarea>
                         </div>
                       </div>
                     </div>

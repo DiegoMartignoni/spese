@@ -2,6 +2,7 @@
   <h1 class="">Attualmente in costruzione</h1>
   <h2>Idee</h2>
   <ul>
+    <li>PRIOTITA': unire le spese e le entrare in un unica sezione: transazioni</li>
     <li>Aggiungere delle api nella home per controllare i movimenti finanza</li>
     <li>Aggiungere una sezione per gestire le carte</li>
     <li>Aggiungere una sezione per il bilancio</li>

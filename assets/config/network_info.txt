@@ -9,11 +9,8 @@ Scheda Ethernet Ethernet:
 
 Scheda LAN wireless Connessione alla rete locale (LAN)* 2:
 
+   Stato supporto. . . . . . . . . . . . : Supporto disconnesso
    Suffisso DNS specifico per connessione: 
-   Indirizzo IPv6 locale rispetto al collegamento . : fe80::c899:c7c8:6fb4:e61d%10
-   Indirizzo IPv4. . . . . . . . . . . . : 192.168.137.1
-   Subnet mask . . . . . . . . . . . . . : 255.255.255.0
-   Gateway predefinito . . . . . . . . . : 
 
 Scheda LAN wireless Connessione alla rete locale (LAN)* 3:
 
@@ -24,6 +21,6 @@ Scheda LAN wireless Wi-Fi:
 
    Suffisso DNS specifico per connessione: 
    Indirizzo IPv6 locale rispetto al collegamento . : fe80::cd0e:f9c8:388f:d765%5
-   Indirizzo IPv4. . . . . . . . . . . . : 192.168.1.104
+   Indirizzo IPv4. . . . . . . . . . . . : 192.168.1.107
    Subnet mask . . . . . . . . . . . . . : 255.255.255.0
    Gateway predefinito . . . . . . . . . : 192.168.1.2

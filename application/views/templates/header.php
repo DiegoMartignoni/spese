@@ -18,14 +18,26 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav">
-        <li class="nav-item active">
-          <a class="nav-link" href="<?php echo base_url();?>">Home <span class="sr-only">(current)</span></a>
+        <li class="nav-item active mr-3">
+          <a class="nav-link font-weight-bold" href="<?php echo base_url();?>">Home</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="<?php echo base_url();?>lista">Lista spese</a>
+        <li class="nav-item active mr-3">
+          <a class="nav-link d-flex aling-self-center" href="<?php echo base_url();?>lista">
+            <img src="<?php echo base_url(); ?>assets/img/b-lista.svg" class="mr-2" alt="lista" height="25" width="25">
+            Lista transazioni
+          </a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="<?php echo base_url();?>nuova_spesa"><span class="badge badge-success">Registra spesa</span></a>
+        <li class="nav-item active mr-3">
+          <a class="nav-link d-flex aling-self-center" href="<?php echo base_url();?>portafogli">
+            <img src="<?php echo base_url(); ?>assets/img/b-portafoglio.svg" class="mr-2" alt="lista" height="25" width="25">
+            Portafoglio e risparmi
+          </a>
+        </li>
+        <li class="nav-item active mr-3">
+          <a class="nav-link d-flex aling-self-center" href="<?php echo base_url();?>nuova_spesa">
+            <img src="<?php echo base_url(); ?>assets/img/b-transazione.svg" class="mr-2" alt="lista" height="25" width="25">
+            Registra transazione
+          </a>
         </li>
       </ul>
     </div>

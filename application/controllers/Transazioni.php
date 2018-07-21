@@ -1,5 +1,5 @@
 <?php
-class Spese extends CI_Controller {
+class Transazioni extends CI_Controller {
 
   public function __construct()
   {
@@ -11,10 +11,10 @@ class Spese extends CI_Controller {
     $this->load->library('session');
   }
 
-  public function index($tipo = "idSpesa", $ordine = "desc", $filtra = "disabled")
+  public function index($tipo = "idTransazione", $ordine = "desc", $filtra = "disabled")
   {
-    $this->session->set_flashdata('pagamento', 'disabled');
-    //$tipo = 'idSpesa';
+    $this->session->set_flashdata('idPagamento', 'disabled');
+    //$tipo = 'idTransazione';
     //$ordine = 'DESC';
     switch ($ordine) {
       case 'desc':
@@ -25,74 +25,78 @@ class Spese extends CI_Controller {
         $print_ordine = "crescente";
         break;
     }
-    if ($tipo == "idSpesa") {
+    if ($tipo == "idTransazione") {
       $print_ordine = "<u>ultimo inserito</u>";
     }
-    $data['spese'] = $this->Spese_model->get_spese($tipo, $ordine);
+    $data['transazioni'] = $this->Transazioni_model->get_transazioni($tipo, $ordine);
+    $data['lista_pagamenti'] = $this->Transazioni_model->get_pagamenti();
     $data['ordinato_per'] = "<span class='badge badge-secondary'>".ucwords($tipo)."</span> ".$print_ordine;
     //$data['filtraPer'] = $filtra;
 
-    $this->session->set_userdata('spese', $data['spese']);
+    $this->session->set_userdata('transazioni', $data['transazioni']);
     $this->session->set_userdata('ordinato_per', $data['ordinato_per']);
 
     $this->load->view('templates/header');
-    $this->load->view('spese/index', $data);
+    $this->load->view('transazioni/index', $data);
     $this->load->view('templates/footer');
   }
 
   public function delete($id)
   {
-    if ($this->Spese_model->delete_spesa($id)) {
+    if ($this->Transazioni_model->delete_transazione($id)) {
       redirect('lista');
     }
   }
 
   public function sort_by_date(){
-    $this->session->set_flashdata('pagamento', 'disabled');
+    $this->session->set_flashdata('idPagamento', 'disabled');
     $inizio = $this->input->post('inizio');
     $fine = $this->input->post('fine');
     $datainizioanno = ($inizio == date("Y-01-01")) ? "l'<u>inizio di quest'anno</u>" : " ".date("d/m/Y", strtotime($inizio));
     $dataoggi = ($fine == date("Y-m-d")) ? " <u>oggi</u>" : "l ".date("d/m/Y",strtotime($fine)) ;
 
-    $data['spese'] = $this->Spese_model->get_by_date($inizio, $fine);
-    $ultimaSpesa = $data['spese'];
+    $data['transazioni'] = $this->Transazioni_model->get_by_date($inizio, $fine);
+    $data['lista_pagamenti'] = $this->Transazioni_model->get_pagamenti();
+    $ultimatransazione = $data['transazioni'];
     $data['ordinato_per'] = "<span class='badge badge-secondary'>Data</span> dal".$datainizioanno." a".$dataoggi;
 
-    $this->session->set_userdata('spese', $data['spese']);
+    $this->session->set_userdata('transazioni', $data['transazioni']);
     $this->session->set_userdata('ordinato_per', $data['ordinato_per']);
 
     $this->load->view('templates/header');
-    $this->load->view('spese/index', $data);
+    $this->load->view('transazioni/index', $data);
     $this->load->view('templates/footer');
   }
 
   public function filter_by(){
-    $this->session->set_flashdata('pagamento', $this->input->post('opzioneTipo'));
-    $data['spese'] = $_SESSION['spese'];
+    $this->session->set_flashdata('idPagamento', $this->input->post('opzioneTipo'));
+    $data['transazioni'] = $_SESSION['transazioni'];
+    $data['lista_pagamenti'] = $this->Transazioni_model->get_pagamenti();
     $data['ordinato_per'] = $_SESSION['ordinato_per'];
     $this->load->view('templates/header');
-    $this->load->view('spese/index', $data);
+    $this->load->view('transazioni/index', $data);
     $this->load->view('templates/footer');
   }
 
   public function search(){
-    $this->session->set_flashdata('pagamento', 'disabled');
+    $this->session->set_flashdata('idPagamento', 'disabled');
     if (empty($this->input->post('cerca'))) {
-      $data['spese'] = "";
+      $data['transazioni'] = "";
       $data['ordinato_per'] = "<span class='badge badge-secondary'>Titolo</span> <u>nessuna parola cercata</u>";
     } else {
-      $data['spese'] = $this->Spese_model->search_by_title($this->input->post('cerca'));
+      $data['transazioni'] = $this->Transazioni_model->search_by_title($this->input->post('cerca'));
       $data['ordinato_per'] = "<span class='badge badge-secondary'>Titolo</span> ricerca parola <u>".$this->input->post('cerca')."</u>";
     }
-    $this->session->set_userdata('spese', $data['spese']);
+    $data['lista_pagamenti'] = $this->Transazioni_model->get_pagamenti();
+    $this->session->set_userdata('transazioni', $data['transazioni']);
     $this->session->set_userdata('ordinato_per', $data['ordinato_per']);
     $this->load->view('templates/header');
-    $this->load->view('spese/index', $data);
+    $this->load->view('transazioni/index', $data);
     $this->load->view('templates/footer');
   }
 
   public function edit($id){
-    if ($this->Spese_model->edit_spesa($id)) {
+    if ($this->Transazioni_model->edit_transazione($id)) {
       redirect('lista');
     }
   }
@@ -100,12 +104,12 @@ class Spese extends CI_Controller {
 
   /*public function sort($tipo, $ordine){
     if ($tipo == "titolo") {
-      $data['spese'] = $this->Spese_model->get_spese($tipo, $ordine);
+      $data['transazioni'] = $this->Transazioni_model->get_transazioni($tipo, $ordine);
       $data['ordinato_per'] = "Titolo";
     }
 
     $this->load->view('templates/header');
-    $this->load->view('spese/index', $data);
+    $this->load->view('transazioni/index', $data);
     $this->load->view('templates/footer');
   }*/
 }
