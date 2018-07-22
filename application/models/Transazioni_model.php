@@ -6,6 +6,28 @@ class Transazioni_model extends CI_Model {
                 $this->load->database();
         }
 
+        public function modify_budget($idPagamento, $cifra, $numTrans){
+          $query = $this->db->get('pagamenti');
+          $pagamenti = $query->result_array();
+          foreach ($pagamenti as $pagamento) {
+            if ($pagamento['idPagamento'] == $idPagamento) {
+              $nuovoBudget = $pagamento['budget'] + $cifra;
+              $dataPagamento = array(
+                'idPagamento' => $pagamento['idPagamento'],
+                'tipo' => $pagamento['tipo'],
+                'budget' => $nuovoBudget,
+                'numTransazioni' => $pagamento['numTransazioni'] + $numTrans,
+                'imgPath' => $pagamento['imgPath'],
+                'red' => $pagamento['red'],
+                'green' => $pagamento['green'],
+                'blue' => $pagamento['blue']
+              );
+            }
+          }
+
+          return $this->db->replace('pagamenti', $dataPagamento);
+        }
+
         public function get_transazioni($tipo, $ordine){
           $this->db->order_by($tipo, $ordine);
           $this->db->join('pagamenti', 'pagamenti.idPagamento = transazioni.idPagamento');
@@ -20,7 +42,16 @@ class Transazioni_model extends CI_Model {
 
         public function delete_transazione($id){
           $this->db->where('idTransazione', $id);
-					$this->db->delete('transazioni');
+          $query = $this->db->get('transazioni');
+          $transazioni = $query->result_array();
+
+          foreach ($transazioni as $transazione) {
+            $nuovaCifra = - $transazione['cifra'];
+            if ($this->modify_budget($transazione['idPagamento'], $nuovaCifra, -1)) {
+              $this->db->where('idTransazione', $id);
+              $this->db->delete('transazioni');
+            }
+          }
 					return true;
         }
 
@@ -53,8 +84,9 @@ class Transazioni_model extends CI_Model {
             'titolo' => $titolo,
             'idPagamento' => $this->input->post('idPagamento'),
           );
-
-          return $this->db->insert('transazioni', $data);
+          if ($this->modify_budget($this->input->post('idPagamento'), $cifra, 1)) {
+            return $this->db->insert('transazioni', $data);
+          }
         }
 
         public function edit_transazione($id){
@@ -72,6 +104,24 @@ class Transazioni_model extends CI_Model {
             'idPagamento' => $this->input->post('idPagamento'),
           );
 
-          return $this->db->replace('transazioni', $data);
+          $this->db->where('idTransazione', $id);
+          $query = $this->db->get('transazioni');
+          $transazioni = $query->result_array();
+
+          foreach ($transazioni as $transazione) {
+            if ($transazione['idPagamento'] == $this->input->post('idPagamento')) {
+              $nuovaCifra = $cifra - $transazione['cifra'];
+              if ($this->modify_budget($transazione['idPagamento'], $nuovaCifra, 0)) {
+                return $this->db->replace('transazioni', $data);
+              }
+            } else {
+              $vecchiaChifra = - $transazione['cifra'];
+              if ($this->modify_budget($transazione['idPagamento'], $vecchiaChifra, -1)) {
+                if ($this->modify_budget($this->input->post('idPagamento'), $cifra, 1)) {
+                  return $this->db->replace('transazioni', $data);
+                }
+              }
+            }
+          }
         }
 }

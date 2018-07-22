@@ -1,5 +1,5 @@
 <?php echo form_open('registra/create');?>
-<div class="container jumbotron bg-light">
+<div class="container jumbotron">
   <div class="d-flex flex-row">
     <h2 class="text-warning d-flex align-self-center">Registra una nuova transazione</h2>
     <div class="d-flex align-items-stretch align-self-center ml-3">

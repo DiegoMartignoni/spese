@@ -21,6 +21,6 @@ Scheda LAN wireless Wi-Fi:
 
    Suffisso DNS specifico per connessione: 
    Indirizzo IPv6 locale rispetto al collegamento . : fe80::cd0e:f9c8:388f:d765%5
-   Indirizzo IPv4. . . . . . . . . . . . : 192.168.1.107
+   Indirizzo IPv4. . . . . . . . . . . . : 192.168.1.108
    Subnet mask . . . . . . . . . . . . . : 255.255.255.0
    Gateway predefinito . . . . . . . . . : 192.168.1.2

@@ -28,7 +28,7 @@
           </a>
         </li>
         <li class="nav-item active mr-3">
-          <a class="nav-link d-flex aling-self-center" href="<?php echo base_url();?>portafogli">
+          <a class="nav-link d-flex aling-self-center" href="<?php echo base_url();?>portafoglio">
             <img src="<?php echo base_url(); ?>assets/img/b-portafoglio.svg" class="mr-2" alt="lista" height="25" width="25">
             Portafoglio e risparmi
           </a>

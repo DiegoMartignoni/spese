@@ -102,7 +102,7 @@
     <?php foreach ($transazioni as $transazione):?>
       <?php if ($transazione['idPagamento'] == $_SESSION['idPagamento'] || $_SESSION['idPagamento'] == "disabled") { ?>
       <div class="col-md-4">
-        <div class="jumbotron p-3 mt-2 text-center">
+        <div class="jumbotron p-3 mt-2 text-center <?php echo $variazione = ($transazione['titolo'] == 'Variazione budget') ? 'bg-dark border border-warning text-warning' : '' ; ?>">
           <div class="container">
             <h3><?php echo $transazione['titolo'];?></h3>
             <a class="badge badge-dark" data-toggle="collapse" href="#collapse<?php echo $transazione['idTransazione'];?>" role="button" aria-expanded="false" aria-controls="collapseExample"><?php
@@ -200,7 +200,7 @@
             </p>
             <div class="d-flex justify-content-center mt-2">
               <img src="<?php echo base_url().$transazione['imgPath'];?>" alt="carta di credito" width="35px" height="35px" data-toggle="tooltip" data-placement="left" title="<?php echo $transazione['tipo']; ?>">
-              <div class="ml-3 d-flex align-items-center"><p class="m-0 p-0 font-weight-bold">€ <?php echo $transazione['cifra'];?></p></div>
+              <div class="ml-3 d-flex align-items-center"><p class="m-0 p-0 font-weight-bold text-<?php if($transazione['cifra'] < 0){ echo 'danger';} else { echo 'success';} ?>">€ <?php echo $transazione['cifra'];?></p></div>
             </div>
             <small><?php echo $transazione['causale'];?></small>
           </div>
